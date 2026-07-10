@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dew Drop Necklace — Raha Jewellery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+  :root{
+    --ivory:#FBFBFB; --mist:#E8E8E8; --stone:#CFCDC7; --taupe:#817A7A; --espresso:#342E2E;
+    --gold-hairline:#B79A5C;
+    --radius-lg:24px; --radius-md:16px; --radius-pill:999px; --maxw:1200px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Poppins', sans-serif; background:var(--ivory); color:var(--espresso); font-weight:400; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Epilogue', sans-serif; color:var(--espresso); font-weight:600; letter-spacing:-0.01em; line-height:1.1;}
+  a{color:inherit; text-decoration:none;}
+  img,svg{display:block; max-width:100%;}
+  button{font-family:'Poppins', sans-serif; cursor:pointer; border:none; background:none;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  .eyebrow{font-size:12px; text-transform:uppercase; letter-spacing:0.18em; color:var(--taupe); font-weight:500; margin-bottom:12px; display:block;}
+  :focus-visible{outline:2px solid var(--espresso); outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ---------- Header ---------- */
+  header{position:sticky; top:0; z-index:50; background:rgba(251,251,251,0.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--stone);}
+  .announce{background:var(--espresso); color:var(--ivory); text-align:center; font-size:13px; letter-spacing:0.04em; padding:9px 16px;}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:var(--maxw); margin:0 auto;}
+  .logo{font-family:'Epilogue', sans-serif; font-weight:700; font-size:24px; letter-spacing:0.06em; display:flex; align-items:center; gap:8px;}
+  .logo img{height:30px; width:auto; display:block;}
+  .logo.footer-logo img{height:56px;}
+  .nav-links{display:flex; gap:34px; font-size:14px; font-weight:500;}
+  .nav-links a{position:relative; padding:4px 0; color:var(--espresso);}
+  .nav-links a::after{content:''; position:absolute; left:0; bottom:0; height:1px; width:0; background:var(--espresso); transition:width .25s ease;}
+  .nav-links a:hover::after{width:100%;}
+  .nav-icons{display:flex; align-items:center; gap:20px;}
+  .icon-btn{position:relative; width:22px; height:22px; color:var(--espresso);}
+  .icon-btn svg{width:100%; height:100%;}
+  .cart-count{position:absolute; top:-8px; right:-10px; background:var(--espresso); color:var(--ivory); font-size:10px; width:17px; height:17px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:600;}
+  .burger{display:none;}
+  @media (max-width:860px){ .nav-links{display:none;} .burger{display:block; width:22px; height:22px;} }
+  .mobile-menu{display:none; flex-direction:column; gap:20px; padding:20px 32px 28px; border-bottom:1px solid var(--stone); background:var(--ivory); font-size:15px; font-weight:500;}
+  .mobile-menu.open{display:flex;}
+
+  /* ---------- Breadcrumb ---------- */
+  .breadcrumb{font-size:12.5px; color:var(--taupe); padding:24px 0 0;}
+  .breadcrumb a:hover{color:var(--espresso);}
+
+  /* ---------- Product layout ---------- */
+  .product{display:grid; grid-template-columns:1fr 1fr; gap:56px; padding:32px 0 80px;}
+  @media (max-width:900px){ .product{grid-template-columns:1fr; gap:28px;} }
+
+  /* Gallery */
+  .gallery-main{
+    background:var(--mist); border-radius:var(--radius-lg); aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; margin-bottom:14px;
+  }
+  .gallery-main svg{width:34%; height:34%; stroke:var(--espresso); transition:opacity .25s ease;}
+  .gallery-main .tag-new{position:absolute; top:18px; left:18px; background:var(--ivory); border:1px solid var(--stone); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border-radius:var(--radius-pill); font-weight:600;}
+  .gallery-zoom-hint{position:absolute; bottom:18px; right:18px; font-size:11.5px; color:var(--taupe); background:var(--ivory); border:1px solid var(--stone); border-radius:var(--radius-pill); padding:6px 14px;}
+  .gallery-thumbs{display:flex; gap:12px;}
+  .thumb{
+    width:76px; height:76px; border-radius:var(--radius-md); background:var(--mist); border:1.5px solid transparent;
+    display:flex; align-items:center; justify-content:center; transition:border-color .2s ease;
+  }
+  .thumb svg{width:44%; height:44%; stroke:var(--espresso); opacity:0.75;}
+  .thumb.active{border-color:var(--espresso);}
+  .thumb.active svg{opacity:1;}
+
+  /* Info column */
+  .prod-eyebrow-row{display:flex; align-items:center; justify-content:space-between;}
+  .info h1{font-size:clamp(28px,3.4vw,36px); margin-bottom:10px;}
+  .rating-row{display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+  .stars{color:var(--espresso); font-size:14px; letter-spacing:2px;}
+  .rating-count{font-size:13px; color:var(--taupe);}
+  .price-row{display:flex; align-items:center; gap:12px; margin-bottom:24px;}
+  .price-now{font-size:24px; font-weight:600;}
+  .price-was{font-size:16px; color:var(--taupe); text-decoration:line-through;}
+  .price-off{font-size:12.5px; background:var(--mist); color:var(--espresso); padding:4px 10px; border-radius:var(--radius-pill); font-weight:500;}
+  .desc{color:var(--taupe); font-size:14.5px; margin-bottom:28px; max-width:460px;}
+
+  .option-block{margin-bottom:26px;}
+  .option-label{display:flex; justify-content:space-between; font-size:13px; font-weight:500; margin-bottom:12px;}
+  .option-label .sizeguide{color:var(--taupe); text-decoration:underline; font-weight:400; cursor:pointer;}
+  .swatch-row{display:flex; gap:10px;}
+  .swatch{
+    width:42px; height:42px; border-radius:50%; border:1.5px solid var(--stone); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:border-color .2s ease;
+  }
+  .swatch.active{border-color:var(--espresso); border-width:2px;}
+  .swatch.silver span{background:#C7C7C7;}
+  .swatch.gold span{background:#C9A24B;}
+  .swatch span{width:26px; height:26px; border-radius:50%; display:block;}
+
+  .size-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .size-pill{border:1px solid var(--stone); border-radius:var(--radius-pill); padding:9px 18px; font-size:13px; font-weight:500; color:var(--espresso); cursor:pointer; transition:all .2s ease;}
+  .size-pill.active{background:var(--espresso); color:var(--ivory); border-color:var(--espresso);}
+  .size-pill:disabled{color:var(--stone); border-color:var(--mist); cursor:not-allowed; text-decoration:line-through;}
+
+  .qty-row{display:flex; align-items:center; gap:16px; margin-bottom:28px;}
+  .qty-control{display:flex; align-items:center; border:1px solid var(--stone); border-radius:var(--radius-pill);}
+  .qty-control button{width:38px; height:38px; font-size:16px;}
+  .qty-control span{width:32px; text-align:center; font-size:14px; font-weight:500;}
+  .stock-note{font-size:12.5px; color:#5C7A5C; display:flex; align-items:center; gap:6px;}
+  .stock-note .dot{width:6px; height:6px; border-radius:50%; background:#5C7A5C;}
+
+  .cta-row{display:flex; gap:14px; margin-bottom:32px;}
+  .btn-primary{background:var(--espresso); color:var(--ivory); font-size:14.5px; font-weight:500; padding:16px 0; border-radius:var(--radius-pill); flex:1; text-align:center;}
+  .btn-outline{border:1px solid var(--espresso); color:var(--espresso); font-size:14.5px; font-weight:500; padding:16px 26px; border-radius:var(--radius-pill); text-align:center;}
+  .btn-primary:hover{opacity:0.92;}
+  .btn-outline:hover{background:var(--espresso); color:var(--ivory);}
+
+  .trust-row{display:flex; flex-direction:column; gap:12px; border-top:1px solid var(--stone); padding-top:24px;}
+  .trust-item{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--taupe);}
+  .trust-item svg{width:18px; height:18px; stroke:var(--espresso); flex-shrink:0;}
+
+  /* Accordion */
+  .accordion{border-top:1px solid var(--stone); margin-top:28px;}
+  .accordion-item{border-bottom:1px solid var(--stone);}
+  .accordion-head{width:100%; display:flex; justify-content:space-between; align-items:center; padding:18px 0; font-size:14.5px; font-weight:500;}
+  .accordion-head .plus{font-size:18px; transition:transform .2s ease;}
+  .accordion-item.open .plus{transform:rotate(45deg);}
+  .accordion-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .accordion-item.open .accordion-body{max-height:240px;}
+  .accordion-body p{font-size:13.5px; color:var(--taupe); padding-bottom:18px; max-width:460px;}
+
+  /* Related */
+  section.related{padding:0 0 88px;}
+  .section-head{text-align:center; margin-bottom:44px;}
+  .section-head h2{font-size:clamp(24px,3vw,30px);}
+  .chain{width:120px; height:14px; margin:18px auto 0;}
+  .chain path, .chain circle{stroke:var(--stone); stroke-width:1.4; fill:none;}
+  .chain circle{fill:var(--ivory);}
+  .prod-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+  .prod-card{position:relative;}
+  .prod-thumb{background:var(--mist); border-radius:var(--radius-lg); aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; margin-bottom:14px;}
+  .prod-thumb svg{width:44%; height:44%; stroke:var(--espresso);}
+  .quick-add{position:absolute; bottom:12px; left:12px; right:12px; background:var(--espresso); color:var(--ivory); border-radius:var(--radius-pill); padding:10px 0; font-size:12.5px; font-weight:500; opacity:0; transform:translateY(8px); transition:opacity .2s ease, transform .2s ease;}
+  .prod-card:hover .quick-add{opacity:1; transform:translateY(0);}
+  .prod-name{font-size:14.5px; font-weight:500; margin-bottom:2px;}
+  .prod-meta{font-size:12px; color:var(--taupe); margin-bottom:6px;}
+  .prod-price{font-size:14px; font-weight:600;}
+  @media (max-width:1024px){ .prod-grid{grid-template-columns:repeat(2,1fr);} }
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--stone); padding:64px 0 32px;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:48px;}
+  .foot-grid h4{font-size:13px; margin-bottom:16px; letter-spacing:0.04em;}
+  .foot-grid ul{list-style:none;}
+  .foot-grid li{margin-bottom:11px; font-size:13.5px; color:var(--taupe);}
+  .foot-grid li a:hover{color:var(--espresso);}
+  .foot-about p{color:var(--taupe); font-size:13.5px; max-width:280px; margin-top:14px;}
+  .foot-bottom{border-top:1px solid var(--stone); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:12.5px; color:var(--taupe);}
+  .pay-icons{display:flex; gap:10px; font-size:11px;}
+  .pay-icons span{border:1px solid var(--stone); border-radius:6px; padding:4px 8px;}
+  @media (max-width:860px){ .foot-grid{grid-template-columns:1fr 1fr;} }
+
+  /* ---------- Cart drawer ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(52,46,46,0.4); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:90;}
+  .overlay.open{opacity:1; pointer-events:auto;}
+  .drawer{position:fixed; top:0; right:0; height:100%; width:min(400px,92vw); background:var(--ivory); z-index:100; transform:translateX(100%); transition:transform .35s ease; display:flex; flex-direction:column; box-shadow:-8px 0 30px rgba(0,0,0,0.08);}
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{display:flex; justify-content:space-between; align-items:center; padding:24px 24px 18px; border-bottom:1px solid var(--stone);}
+  .drawer-head h3{font-size:18px;}
+  .drawer-body{flex:1; overflow-y:auto; padding:20px 24px;}
+  .drawer-item{display:flex; gap:14px; margin-bottom:20px;}
+  .drawer-thumb{width:64px; height:64px; background:var(--mist); border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+  .drawer-thumb svg{width:60%; height:60%; stroke:var(--espresso);}
+  .drawer-item-name{font-size:14px; font-weight:500;}
+  .drawer-item-meta{font-size:12px; color:var(--taupe); margin-top:2px;}
+  .drawer-item-price{font-size:13.5px; font-weight:600; margin-top:6px;}
+  .drawer-remove{font-size:11.5px; color:var(--taupe); text-decoration:underline; margin-top:6px; display:inline-block;}
+  .drawer-empty{color:var(--taupe); font-size:14px; text-align:center; margin-top:60px;}
+  .drawer-foot{border-top:1px solid var(--stone); padding:20px 24px 26px;}
+  .drawer-total{display:flex; justify-content:space-between; font-size:15px; font-weight:600; margin-bottom:16px;}
+  .close-btn{width:20px; height:20px;}
+  .toast{position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--espresso); color:var(--ivory); padding:13px 24px; border-radius:var(--radius-pill); font-size:13.5px; opacity:0; pointer-events:none; transition:opacity .3s ease, transform .3s ease; z-index:200;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="announce">Free shipping on orders above ₹1,999 · Hallmarked silver & gold · Easy 15-day returns</div>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo"><img src="assets/raha-wordmark.png" alt="Raha"></a>
+    <nav class="nav-links">
+      <a href="index.html#new">New In</a>
+      <a href="products.html">Shop All</a>
+      <a href="products.html?material=silver">Silver</a>
+      <a href="products.html?material=gold">Gold</a>
+      <a href="index.html#story">Gifting</a>
+    </nav>
+    <div class="nav-icons">
+      <button class="icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+      <button class="icon-btn" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.5-4 5-5.5 7.5-5.5s6 1.5 7.5 5.5"/></svg></button>
+      <button class="icon-btn" aria-label="Cart" id="cartToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="burger icon-btn" id="burgerToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#new">New In</a>
+    <a href="products.html">Shop All</a>
+    <a href="index.html#story">Our Story</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="breadcrumb"><a href="index.html">Home</a> / <a href="products.html?material=silver">Silver</a> / <a href="products.html?material=silver&style=minimal">Minimal</a> / <a href="products.html?cat=necklace">Necklaces</a> / <span id="crumbName">Dew Drop Necklace</span></div>
+
+  <div class="product">
+    <!-- Gallery -->
+    <div>
+      <div class="gallery-main">
+        <span class="tag-new">Bestseller</span>
+        <svg id="mainIcon" viewBox="0 0 24 24" fill="none" stroke-width="1.2">
+          <path d="M5 5c3 4 3 8 0 12M19 5c-3 4-3 8 0 12"/><circle cx="12" cy="18" r="2.4"/>
+        </svg>
+        <span class="gallery-zoom-hint">Hover to explore angles</span>
+      </div>
+      <div class="gallery-thumbs" id="thumbRow">
+        <button class="thumb active" data-view="0"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M5 5c3 4 3 8 0 12M19 5c-3 4-3 8 0 12"/><circle cx="12" cy="18" r="2.4"/></svg></button>
+        <button class="thumb" data-view="1"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M12 4v16"/></svg></button>
+        <button class="thumb" data-view="2"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><circle cx="12" cy="9" r="5"/><path d="M7 20c0-3 2-5 5-5s5 2 5 5"/></svg></button>
+        <button class="thumb" data-view="3"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 12h6"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="info">
+      <span class="eyebrow">Necklaces · <span id="materialLabel">925 Silver</span></span>
+      <h1 id="prodName">Dew Drop Necklace</h1>
+      <div class="rating-row">
+        <span class="stars">★★★★★</span>
+        <span class="rating-count">4.8 (212 reviews)</span>
+      </div>
+      <div class="price-row">
+        <span class="price-now" id="priceNow">₹1,799</span>
+        <span class="price-was" id="priceWas">₹2,199</span>
+        <span class="price-off">18% off</span>
+      </div>
+      <p class="desc">A single dew-drop pendant on a fine cable chain — light enough to layer, plain enough to wear alone every day. Hallmark stamped, nickel-free, and finished by hand.</p>
+
+      <div class="option-block">
+        <div class="option-label"><span>Material</span></div>
+        <div class="swatch-row">
+          <button class="swatch silver active" data-mat="silver" aria-label="925 Silver"><span></span></button>
+          <button class="swatch gold" data-mat="gold" aria-label="Gold"><span></span></button>
+        </div>
+      </div>
+
+      <div class="option-block">
+        <div class="option-label"><span>Chain Length</span><span class="sizeguide">Size guide</span></div>
+        <div class="size-row" id="sizeRow">
+          <button class="size-pill" data-size="14">14"</button>
+          <button class="size-pill active" data-size="16">16"</button>
+          <button class="size-pill" data-size="18">18"</button>
+          <button class="size-pill" data-size="20" disabled>20"</button>
+        </div>
+      </div>
+
+      <div class="qty-row">
+        <div class="qty-control">
+          <button id="qtyMinus" aria-label="Decrease quantity">–</button>
+          <span id="qtyVal">1</span>
+          <button id="qtyPlus" aria-label="Increase quantity">+</button>
+        </div>
+        <span class="stock-note"><span class="dot"></span>In stock, ships in 2 days</span>
+      </div>
+
+      <div class="cta-row">
+        <button class="btn-primary" id="addToBagBtn">Add to Bag</button>
+        <button class="btn-outline" id="wishlistBtn" aria-label="Add to wishlist">♡</button>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>Hallmark certified 925 silver / gold</div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>15-day easy returns</div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Free shipping above ₹1,999</div>
+      </div>
+
+      <div class="accordion" id="accordion">
+        <div class="accordion-item open">
+          <button class="accordion-head">Materials & Care <span class="plus">+</span></button>
+          <div class="accordion-body"><p>925 sterling silver or gold-plated sterling silver. Avoid perfume and water contact. Store in the pouch provided to prevent tarnishing.</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-head">Shipping & Returns <span class="plus">+</span></button>
+          <div class="accordion-body"><p>Ships in 2 business days. Free shipping above ₹1,999. Returns accepted within 15 days in original packaging.</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-head">Size Guide <span class="plus">+</span></button>
+          <div class="accordion-body"><p>16" sits at the collarbone, 18" sits just below it. Most customers choose 16" for a single pendant.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="related">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">You may also like</span>
+      <h2>Pairs well with this</h2>
+      <svg class="chain" viewBox="0 0 120 14"><path d="M2 7 L118 7"/><circle cx="14" cy="7" r="4"/><circle cx="60" cy="7" r="4"/><circle cx="106" cy="7" r="4"/></svg>
+    </div>
+    <div class="prod-grid" id="relatedGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-about">
+        <a href="index.html" class="logo footer-logo"><img src="assets/raha-logo.png" alt="Raha — Timeless Jewellery"></a>
+        <p>Timeless silver and gold jewellery — from minimal pieces to statement designs, priced to match.</p>
+      </div>
+      <div><h4>Shop</h4><ul><li><a href="products.html?material=silver">Silver</a></li><li><a href="products.html?material=gold">Gold</a></li><li><a href="products.html?style=minimal">Minimal</a></li><li><a href="products.html?style=statement">Statement</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="#">Shipping & Returns</a></li><li><a href="#">Jewellery Care</a></li><li><a href="#">Size Guide</a></li><li><a href="#">Contact Us</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="index.html#story">Our Story</a></li><li><a href="#">Hallmark Certification</a></li><li><a href="#">Instagram</a></li><li><a href="#">Careers</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Raha Jewellery. All rights reserved.</span>
+      <div class="pay-icons"><span>UPI</span><span>Cards</span><span>Netbanking</span><span>COD</span></div>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Your Bag</h3>
+    <button class="close-btn" id="closeDrawer" aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none" stroke="#342E2E" stroke-width="1.6"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot">
+    <div class="drawer-total"><span>Subtotal</span><span id="drawerTotal">₹0</span></div>
+    <a href="#" class="btn-primary" id="checkoutBtn" style="display:block;">Checkout</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  const icons = {
+    ring:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="15" r="6"/><path d="M8.5 9L12 3l3.5 6"/></svg>',
+    earring:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 4v4"/><circle cx="12" cy="12" r="4"/><path d="M9 16l-1.5 5h9L15 16"/></svg>',
+    necklace:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M5 5c3 4 3 8 0 12M19 5c-3 4-3 8 0 12"/><circle cx="12" cy="18" r="2.4"/></svg>',
+    bracelet:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><ellipse cx="12" cy="12" rx="8" ry="9"/><path d="M4 12h16"/></svg>'
+  };
+  const matLabel = {silver:'925 Silver', gold:'Gold'};
+
+  // ---------- Current product state ----------
+  const basePrices = { silver: 1799, gold: 2199 };
+  const mrp = { silver: 2199, gold: 2599 };
+  let selectedMaterial = 'silver';
+  let selectedSize = '16';
+  let qty = 1;
+
+  function formatINR(n){ return '₹' + n.toLocaleString('en-IN'); }
+
+  function updatePriceDisplay(){
+    document.getElementById('materialLabel').textContent = matLabel[selectedMaterial];
+    document.getElementById('priceNow').textContent = formatINR(basePrices[selectedMaterial]);
+    document.getElementById('priceWas').textContent = formatINR(mrp[selectedMaterial]);
+  }
+
+  document.querySelectorAll('.swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+      selectedMaterial = sw.getAttribute('data-mat');
+      updatePriceDisplay();
+    });
+  });
+
+  document.querySelectorAll('.size-pill').forEach(btn => {
+    if(btn.disabled) return;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.size-pill').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      selectedSize = btn.getAttribute('data-size');
+    });
+  });
+
+  document.getElementById('qtyMinus').addEventListener('click', () => {
+    if(qty > 1){ qty--; document.getElementById('qtyVal').textContent = qty; }
+  });
+  document.getElementById('qtyPlus').addEventListener('click', () => {
+    if(qty < 10){ qty++; document.getElementById('qtyVal').textContent = qty; }
+  });
+
+  // Gallery thumbs (swap main icon as a stand-in for real photo angles)
+  const galleryIcons = [
+    '<path d="M5 5c3 4 3 8 0 12M19 5c-3 4-3 8 0 12"/><circle cx="12" cy="18" r="2.4"/>',
+    '<circle cx="12" cy="12" r="8"/><path d="M12 4v16"/>',
+    '<circle cx="12" cy="9" r="5"/><path d="M7 20c0-3 2-5 5-5s5 2 5 5"/>',
+    '<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 12h6"/>'
+  ];
+  document.querySelectorAll('.thumb').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const idx = Number(t.getAttribute('data-view'));
+      document.getElementById('mainIcon').innerHTML = galleryIcons[idx];
+    });
+  });
+
+  // Accordion
+  document.querySelectorAll('.accordion-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const item = head.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+      if(!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // ---------- Related products ----------
+  const related = [
+    {id:2, name:'Slim Band Ring', category:'ring', material:'gold', price:999, mrp:null},
+    {id:8, name:'Thread Huggie Earrings', category:'earring', material:'gold', price:1199, mrp:1499},
+    {id:9, name:'Bar Chain Bracelet', category:'bracelet', material:'silver', price:1399, mrp:null},
+    {id:11, name:'Coin Pendant Necklace', category:'necklace', material:'gold', price:1899, mrp:null},
+  ];
+  document.getElementById('relatedGrid').innerHTML = related.map(p => `
+    <div class="prod-card" data-id="${p.id}">
+      <div class="prod-thumb">
+        ${icons[p.category]}
+        <button class="quick-add" data-add="${p.id}">Add to Bag</button>
+      </div>
+      <div class="prod-name">${p.name}</div>
+      <div class="prod-meta">${matLabel[p.material]}</div>
+      <div class="prod-price">${formatINR(p.price)}</div>
+    </div>
+  `).join('');
+
+  // ---------- Cart (in-memory only, no localStorage) ----------
+  let cart = [];
+
+  function renderDrawer(){
+    const body = document.getElementById('drawerBody');
+    const totalEl = document.getElementById('drawerTotal');
+    document.getElementById('cartCount').textContent = cart.length;
+    if(cart.length === 0){
+      body.innerHTML = '<div class="drawer-empty">Your bag is empty.<br>Add something you\\'ll wear every day.</div>';
+      totalEl.textContent = '₹0';
+      return;
+    }
+    body.innerHTML = cart.map((item, idx) => `
+      <div class="drawer-item">
+        <div class="drawer-thumb">${icons[item.category]}</div>
+        <div>
+          <div class="drawer-item-name">${item.name}</div>
+          <div class="drawer-item-meta">${matLabel[item.material]}${item.size ? ' · ' + item.size + '"' : ''}${item.qty > 1 ? ' · Qty ' + item.qty : ''}</div>
+          <div class="drawer-item-price">${formatINR(item.price * item.qty)}</div>
+          <a href="#" class="drawer-remove" data-remove="${idx}">Remove</a>
+        </div>
+      </div>
+    `).join('');
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    totalEl.textContent = formatINR(total);
+  }
+
+  function showToast(msg){
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  document.getElementById('addToBagBtn').addEventListener('click', () => {
+    cart.push({
+      name: document.getElementById('prodName').textContent,
+      category: 'necklace',
+      material: selectedMaterial,
+      size: selectedSize,
+      qty: qty,
+      price: basePrices[selectedMaterial]
+    });
+    renderDrawer();
+    showToast(qty + ' × ' + document.getElementById('prodName').textContent + ' added to bag');
+  });
+
+  document.addEventListener('click', (e) => {
+    const addId = e.target.getAttribute('data-add');
+    if(addId){
+      const p = related.find(x => x.id === Number(addId));
+      cart.push({...p, qty:1});
+      renderDrawer();
+      showToast(p.name + ' added to bag');
+    }
+    const removeIdx = e.target.getAttribute('data-remove');
+    if(removeIdx !== null){
+      e.preventDefault();
+      cart.splice(Number(removeIdx), 1);
+      renderDrawer();
+    }
+  });
+
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('overlay');
+  function openDrawer(){ drawer.classList.add('open'); overlay.classList.add('open'); }
+  function closeDrawerFn(){ drawer.classList.remove('open'); overlay.classList.remove('open'); }
+  document.getElementById('cartToggle').addEventListener('click', openDrawer);
+  document.getElementById('closeDrawer').addEventListener('click', closeDrawerFn);
+  overlay.addEventListener('click', closeDrawerFn);
+  renderDrawer();
+  updatePriceDisplay();
+
+  // ---------- Razorpay checkout ----------
+  document.getElementById('checkoutBtn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (cart.length === 0) { showToast('Your bag is empty'); return; }
+
+    const total = cart.reduce((sum, i) => sum + (i.price * (i.qty || 1)), 0);
+    const btn = document.getElementById('checkoutBtn');
+    const originalLabel = btn.textContent;
+    btn.textContent = 'Starting checkout…';
+
+    try {
+      const orderRes = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: total })
+      });
+      const order = await orderRes.json();
+      if (order.error) { showToast('Could not start checkout — try again'); btn.textContent = originalLabel; return; }
+
+      const rzp = new Razorpay({
+        key: order.key_id,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.order_id,
+        name: 'Raha Jewellery',
+        description: cart.length + ' item(s)',
+        image: 'assets/favicon.png',
+        theme: { color: '#342E2E' },
+        handler: async function (response) {
+          const verifyRes = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(response)
+          });
+          const result = await verifyRes.json();
+          if (result.verified) {
+            cart = [];
+            renderDrawer();
+            closeDrawerFn();
+            showToast('Payment successful — order confirmed');
+          } else {
+            showToast('Payment could not be verified — contact support');
+          }
+        },
+        modal: {
+          ondismiss: function(){ btn.textContent = originalLabel; }
+        }
+      });
+      rzp.open();
+      btn.textContent = originalLabel;
+    } catch (err) {
+      showToast('Something went wrong — try again');
+      btn.textContent = originalLabel;
+    }
+  });
+
+
+  // ---------- Mobile menu ----------
+  document.getElementById('burgerToggle').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+
+  // Wishlist toggle (visual only)
+  document.getElementById('wishlistBtn').addEventListener('click', function(){
+    this.textContent = this.textContent.trim() === '♡' ? '♥' : '♡';
+  });
+</script>
+
+</body>
+</html>

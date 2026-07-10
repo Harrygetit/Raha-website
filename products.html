@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop All — Raha Jewellery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+  :root{
+    --ivory:#FBFBFB;
+    --mist:#E8E8E8;
+    --stone:#CFCDC7;
+    --taupe:#817A7A;
+    --espresso:#342E2E;
+    --gold-hairline:#B79A5C;
+    --radius-lg:24px;
+    --radius-md:16px;
+    --radius-pill:999px;
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Poppins', sans-serif;
+    background:var(--ivory);
+    color:var(--espresso);
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Epilogue', sans-serif;
+    color:var(--espresso);
+    font-weight:600;
+    letter-spacing:-0.01em;
+    line-height:1.1;
+  }
+  a{color:inherit; text-decoration:none;}
+  img,svg{display:block; max-width:100%;}
+  button{font-family:'Poppins', sans-serif; cursor:pointer; border:none; background:none;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  .eyebrow{
+    font-size:12px; text-transform:uppercase; letter-spacing:0.18em;
+    color:var(--taupe); font-weight:500; margin-bottom:12px; display:block;
+  }
+  :focus-visible{outline:2px solid var(--espresso); outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ---------- Header (shared) ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,251,251,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--stone);
+  }
+  .announce{background:var(--espresso); color:var(--ivory); text-align:center; font-size:13px; letter-spacing:0.04em; padding:9px 16px;}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:var(--maxw); margin:0 auto;}
+  .logo{font-family:'Epilogue', sans-serif; font-weight:700; font-size:24px; letter-spacing:0.06em; display:flex; align-items:center; gap:8px;}
+  .logo img{height:30px; width:auto; display:block;}
+  .logo.footer-logo img{height:56px;}
+  .logo .dot{width:6px; height:6px; border-radius:50%; background:var(--espresso); display:inline-block;}
+  .nav-links{display:flex; gap:34px; font-size:14px; font-weight:500;}
+  .nav-links a{position:relative; padding:4px 0; color:var(--espresso);}
+  .nav-links a.active{color:var(--espresso);}
+  .nav-links a.active::after{width:100%;}
+  .nav-links a::after{content:''; position:absolute; left:0; bottom:0; height:1px; width:0; background:var(--espresso); transition:width .25s ease;}
+  .nav-links a:hover::after{width:100%;}
+  .nav-icons{display:flex; align-items:center; gap:20px;}
+  .icon-btn{position:relative; width:22px; height:22px; color:var(--espresso);}
+  .icon-btn svg{width:100%; height:100%;}
+  .cart-count{position:absolute; top:-8px; right:-10px; background:var(--espresso); color:var(--ivory); font-size:10px; width:17px; height:17px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:600;}
+  .burger{display:none;}
+  @media (max-width:860px){ .nav-links{display:none;} .burger{display:block; width:22px; height:22px;} }
+  .mobile-menu{display:none; flex-direction:column; gap:20px; padding:20px 32px 28px; border-bottom:1px solid var(--stone); background:var(--ivory); font-size:15px; font-weight:500;}
+  .mobile-menu.open{display:flex;}
+
+  /* ---------- Breadcrumb / page head ---------- */
+  .page-head{padding:44px 0 8px;}
+  .breadcrumb{font-size:12.5px; color:var(--taupe); margin-bottom:18px;}
+  .breadcrumb a:hover{color:var(--espresso);}
+  .page-head h1{font-size:clamp(30px,4vw,42px); margin-bottom:8px;}
+  .page-head p{color:var(--taupe); font-size:14.5px;}
+
+  /* ---------- Filter bar ---------- */
+  .filter-bar{
+    padding:28px 0 24px; border-bottom:1px solid var(--stone); margin-bottom:36px;
+  }
+  .filter-tier{display:flex; align-items:baseline; gap:16px; margin-bottom:14px; flex-wrap:wrap;}
+  .tier-label{font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:var(--taupe); width:64px; flex-shrink:0;}
+  .chip-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .chip{
+    border:1px solid var(--stone); border-radius:var(--radius-pill); padding:8px 17px;
+    font-size:13px; font-weight:500; color:var(--taupe); transition:all .2s ease; white-space:nowrap;
+  }
+  .chip:hover{border-color:var(--espresso); color:var(--espresso);}
+  .chip.active{background:var(--espresso); color:var(--ivory); border-color:var(--espresso);}
+  .filter-bottom{display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:18px; padding-top:18px; border-top:1px solid var(--mist); flex-wrap:wrap;}
+  .result-count{font-size:13px; color:var(--taupe);}
+  select#sortSelect{
+    border:1px solid var(--stone); border-radius:var(--radius-pill); padding:9px 16px;
+    font-size:13px; font-family:'Poppins',sans-serif; color:var(--espresso); background:var(--ivory);
+  }
+
+  /* ---------- Product grid ---------- */
+  .prod-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:26px; margin-bottom:20px;}
+  .prod-card{position:relative;}
+  .prod-thumb{
+    background:var(--mist); border-radius:var(--radius-lg); aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; margin-bottom:14px;
+  }
+  .prod-thumb svg{width:44%; height:44%; stroke:var(--espresso);}
+  .tag-new{position:absolute; top:12px; left:12px; background:var(--ivory); border:1px solid var(--stone); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; padding:5px 10px; border-radius:var(--radius-pill); font-weight:600;}
+  .tag-new.statement-tag{background:var(--espresso); color:var(--ivory); border-color:var(--espresso);}
+  .quick-add{position:absolute; bottom:12px; left:12px; right:12px; background:var(--espresso); color:var(--ivory); border-radius:var(--radius-pill); padding:10px 0; font-size:12.5px; font-weight:500; opacity:0; transform:translateY(8px); transition:opacity .2s ease, transform .2s ease;}
+  .prod-card:hover .quick-add{opacity:1; transform:translateY(0);}
+  .prod-name{font-size:14.5px; font-weight:500; margin-bottom:2px;}
+  .prod-meta{font-size:12px; color:var(--taupe); margin-bottom:6px;}
+  .prod-price{font-size:14px; font-weight:600;}
+  .prod-price .strike{color:var(--taupe); font-weight:400; text-decoration:line-through; margin-left:6px; font-size:12.5px;}
+  .empty-state{grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--taupe);}
+  .empty-state h3{color:var(--espresso); margin-bottom:8px; font-size:18px;}
+  @media (max-width:1024px){ .prod-grid{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:700px){ .prod-grid{grid-template-columns:repeat(2,1fr); gap:16px;} .filter-tier{flex-direction:column; align-items:flex-start; gap:8px;} .tier-label{width:auto;} }
+
+  .load-more{text-align:center; margin:44px 0 88px;}
+  .btn-outline{
+    font-size:14px; font-weight:500; padding:14px 30px; border-radius:var(--radius-pill);
+    border:1px solid var(--espresso); color:var(--espresso); transition:all .2s ease; display:inline-block;
+  }
+  .btn-outline:hover{background:var(--espresso); color:var(--ivory);}
+  .btn-primary{background:var(--espresso); color:var(--ivory); font-size:14px; font-weight:500; padding:14px 30px; border-radius:var(--radius-pill); display:inline-block;}
+
+  /* ---------- Footer (shared) ---------- */
+  footer{border-top:1px solid var(--stone); padding:64px 0 32px; margin-top:40px;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:48px;}
+  .foot-grid h4{font-size:13px; margin-bottom:16px; letter-spacing:0.04em;}
+  .foot-grid ul{list-style:none;}
+  .foot-grid li{margin-bottom:11px; font-size:13.5px; color:var(--taupe);}
+  .foot-grid li a:hover{color:var(--espresso);}
+  .foot-about p{color:var(--taupe); font-size:13.5px; max-width:280px; margin-top:14px;}
+  .foot-bottom{border-top:1px solid var(--stone); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:12.5px; color:var(--taupe);}
+  .pay-icons{display:flex; gap:10px; font-size:11px;}
+  .pay-icons span{border:1px solid var(--stone); border-radius:6px; padding:4px 8px;}
+  @media (max-width:860px){ .foot-grid{grid-template-columns:1fr 1fr;} }
+
+  /* ---------- Cart drawer (shared) ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(52,46,46,0.4); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:90;}
+  .overlay.open{opacity:1; pointer-events:auto;}
+  .drawer{position:fixed; top:0; right:0; height:100%; width:min(400px,92vw); background:var(--ivory); z-index:100; transform:translateX(100%); transition:transform .35s ease; display:flex; flex-direction:column; box-shadow:-8px 0 30px rgba(0,0,0,0.08);}
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{display:flex; justify-content:space-between; align-items:center; padding:24px 24px 18px; border-bottom:1px solid var(--stone);}
+  .drawer-head h3{font-size:18px;}
+  .drawer-body{flex:1; overflow-y:auto; padding:20px 24px;}
+  .drawer-item{display:flex; gap:14px; margin-bottom:20px;}
+  .drawer-thumb{width:64px; height:64px; background:var(--mist); border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+  .drawer-thumb svg{width:60%; height:60%; stroke:var(--espresso);}
+  .drawer-item-name{font-size:14px; font-weight:500;}
+  .drawer-item-meta{font-size:12px; color:var(--taupe); margin-top:2px;}
+  .drawer-item-price{font-size:13.5px; font-weight:600; margin-top:6px;}
+  .drawer-remove{font-size:11.5px; color:var(--taupe); text-decoration:underline; margin-top:6px; display:inline-block;}
+  .drawer-empty{color:var(--taupe); font-size:14px; text-align:center; margin-top:60px;}
+  .drawer-foot{border-top:1px solid var(--stone); padding:20px 24px 26px;}
+  .drawer-total{display:flex; justify-content:space-between; font-size:15px; font-weight:600; margin-bottom:16px;}
+  .close-btn{width:20px; height:20px;}
+  .toast{position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--espresso); color:var(--ivory); padding:13px 24px; border-radius:var(--radius-pill); font-size:13.5px; opacity:0; pointer-events:none; transition:opacity .3s ease, transform .3s ease; z-index:200;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="announce">Free shipping on orders above ₹1,999 · Hallmarked silver & gold · Easy 15-day returns</div>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo"><img src="assets/raha-wordmark.png" alt="Raha"></a>
+    <nav class="nav-links">
+      <a href="index.html#new">New In</a>
+      <a href="products.html" class="active">Shop All</a>
+      <a href="products.html?material=silver">Silver</a>
+      <a href="products.html?material=gold">Gold</a>
+      <a href="index.html#story">Gifting</a>
+    </nav>
+    <div class="nav-icons">
+      <button class="icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+      <button class="icon-btn" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.5-4 5-5.5 7.5-5.5s6 1.5 7.5 5.5"/></svg></button>
+      <button class="icon-btn" aria-label="Cart" id="cartToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="burger icon-btn" id="burgerToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#new">New In</a>
+    <a href="products.html">Shop All</a>
+    <a href="index.html#story">Our Story</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div class="breadcrumb"><a href="index.html">Home</a> / <span id="crumbCurrent">Shop All</span></div>
+    <h1 id="pageTitle">Women's Jewellery</h1>
+    <p id="pageSub">Timeless silver and gold — minimal to statement.</p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-tier">
+      <span class="tier-label">Material</span>
+      <div class="chip-row" id="materialChips">
+        <button class="chip active" data-mat="all">All</button>
+        <button class="chip" data-mat="silver">Silver</button>
+        <button class="chip" data-mat="gold">Gold</button>
+      </div>
+    </div>
+    <div class="filter-tier">
+      <span class="tier-label">Style</span>
+      <div class="chip-row" id="styleChips">
+        <button class="chip active" data-style="all">All</button>
+        <button class="chip" data-style="minimal">Minimal</button>
+        <button class="chip" data-style="statement">Statement</button>
+      </div>
+    </div>
+    <div class="filter-tier">
+      <span class="tier-label">Type</span>
+      <div class="chip-row" id="catChips">
+        <button class="chip active" data-cat="all">All</button>
+        <button class="chip" data-cat="ring">Rings</button>
+        <button class="chip" data-cat="earring">Earrings</button>
+        <button class="chip" data-cat="necklace">Necklaces</button>
+        <button class="chip" data-cat="bracelet">Bracelets</button>
+      </div>
+    </div>
+    <div class="filter-bottom">
+      <span class="result-count" id="resultCount">20 products</span>
+      <select id="sortSelect">
+        <option value="featured">Featured</option>
+        <option value="low">Price: Low to High</option>
+        <option value="high">Price: High to Low</option>
+        <option value="new">Newest</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="prod-grid" id="prodGrid"></div>
+
+  <div class="load-more">
+    <a href="#" class="btn-outline" id="loadMoreBtn">Load More</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-about">
+        <a href="index.html" class="logo footer-logo"><img src="assets/raha-logo.png" alt="Raha — Silver Jewellery"></a>
+        <p>Timeless silver and gold jewellery — from minimal pieces to statement designs, priced to match.</p>
+      </div>
+      <div><h4>Shop</h4><ul><li><a href="products.html?material=silver">Silver</a></li><li><a href="products.html?material=gold">Gold</a></li><li><a href="products.html?style=minimal">Minimal</a></li><li><a href="products.html?style=statement">Statement</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="#">Shipping & Returns</a></li><li><a href="#">Jewellery Care</a></li><li><a href="#">Size Guide</a></li><li><a href="#">Contact Us</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="index.html#story">Our Story</a></li><li><a href="#">Hallmark Certification</a></li><li><a href="#">Instagram</a></li><li><a href="#">Careers</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Raha Jewellery. All rights reserved.</span>
+      <div class="pay-icons"><span>UPI</span><span>Cards</span><span>Netbanking</span><span>COD</span></div>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Your Bag</h3>
+    <button class="close-btn" id="closeDrawer" aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none" stroke="#342E2E" stroke-width="1.6"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot">
+    <div class="drawer-total"><span>Subtotal</span><span id="drawerTotal">₹0</span></div>
+    <a href="#" class="btn-primary" id="checkoutBtn" style="width:100%; justify-content:center; text-align:center;">Checkout</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  // ---------- Catalog: material (silver/gold) → style (minimal/statement) → category (type) ----------
+  const catalog = [
+    {id:1, name:'Orbit Hoop Earrings', category:'earring', material:'silver', style:'minimal', price:1299, mrp:1699, tag:'New'},
+    {id:2, name:'Slim Band Ring', category:'ring', material:'gold', style:'minimal', price:999, mrp:null, tag:null},
+    {id:3, name:'Dew Drop Necklace', category:'necklace', material:'silver', style:'minimal', price:1799, mrp:2199, tag:null},
+    {id:4, name:'Linked Chain Bracelet', category:'bracelet', material:'gold', style:'minimal', price:1599, mrp:null, tag:'New'},
+    {id:5, name:'Curve Stud Earrings', category:'earring', material:'silver', style:'minimal', price:899, mrp:1099, tag:null},
+    {id:6, name:'Halo Pendant Necklace', category:'necklace', material:'gold', style:'minimal', price:1999, mrp:null, tag:null},
+    {id:7, name:'Stacked Signet Ring', category:'ring', material:'silver', style:'minimal', price:1099, mrp:null, tag:null},
+    {id:8, name:'Thread Huggie Earrings', category:'earring', material:'gold', style:'minimal', price:1199, mrp:1499, tag:'New'},
+    {id:9, name:'Bar Chain Bracelet', category:'bracelet', material:'silver', style:'minimal', price:1399, mrp:null, tag:null},
+    {id:10, name:'Open Cuff Ring', category:'ring', material:'gold', style:'minimal', price:1299, mrp:1599, tag:null},
+    {id:11, name:'Coin Pendant Necklace', category:'necklace', material:'gold', style:'minimal', price:1899, mrp:null, tag:'New'},
+    {id:12, name:'Petite Drop Earrings', category:'earring', material:'silver', style:'minimal', price:999, mrp:null, tag:null},
+    {id:13, name:'Twist Band Ring', category:'ring', material:'silver', style:'minimal', price:949, mrp:1199, tag:null},
+    {id:14, name:'Snake Chain Bracelet', category:'bracelet', material:'gold', style:'minimal', price:1699, mrp:null, tag:null},
+    {id:15, name:'Layered Choker Necklace', category:'necklace', material:'silver', style:'minimal', price:1599, mrp:1899, tag:null},
+    {id:16, name:'Daily Stud Earrings', category:'earring', material:'gold', style:'minimal', price:849, mrp:null, tag:null},
+    {id:17, name:'Cascade Statement Necklace', category:'necklace', material:'gold', style:'statement', price:2999, mrp:3599, tag:null},
+    {id:18, name:'Bold Cuff Bracelet', category:'bracelet', material:'silver', style:'statement', price:2499, mrp:null, tag:null},
+    {id:19, name:'Chandelier Drop Earrings', category:'earring', material:'gold', style:'statement', price:2199, mrp:2799, tag:null},
+    {id:20, name:'Sculptural Statement Ring', category:'ring', material:'silver', style:'statement', price:1799, mrp:null, tag:null},
+  ];
+
+  const icons = {
+    ring:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="15" r="6"/><path d="M8.5 9L12 3l3.5 6"/></svg>',
+    earring:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 4v4"/><circle cx="12" cy="12" r="4"/><path d="M9 16l-1.5 5h9L15 16"/></svg>',
+    necklace:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M5 5c3 4 3 8 0 12M19 5c-3 4-3 8 0 12"/><circle cx="12" cy="18" r="2.4"/></svg>',
+    bracelet:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><ellipse cx="12" cy="12" rx="8" ry="9"/><path d="M4 12h16"/></svg>'
+  };
+  const catLabel = {ring:'Rings', earring:'Earrings', necklace:'Necklaces', bracelet:'Bracelets'};
+  const styleLabel = {minimal:'Minimal', statement:'Statement'};
+  const matLabel = {silver:'925 Silver', gold:'Gold'};
+
+  let state = { cat:'all', mat:'all', style:'all', sort:'featured', visible:8 };
+
+  // read ?material=, ?style=, ?cat= from URL on load
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlMat = urlParams.get('material');
+  const urlStyle = urlParams.get('style');
+  const urlCat = urlParams.get('cat');
+  if(urlMat && matLabel[urlMat]) state.mat = urlMat;
+  if(urlStyle && styleLabel[urlStyle]) state.style = urlStyle;
+  if(urlCat && catLabel[urlCat]) state.cat = urlCat;
+
+  function applyFilters(){
+    let list = catalog.filter(p =>
+      (state.cat === 'all' || p.category === state.cat) &&
+      (state.mat === 'all' || p.material === state.mat) &&
+      (state.style === 'all' || p.style === state.style)
+    );
+    if(state.sort === 'low') list.sort((a,b) => a.price - b.price);
+    if(state.sort === 'high') list.sort((a,b) => b.price - a.price);
+    if(state.sort === 'new') list = list.filter(p => p.tag === 'New').concat(list.filter(p => p.tag !== 'New'));
+    return list;
+  }
+
+  function currentTitle(){
+    const parts = [];
+    if(state.mat !== 'all') parts.push(matLabel[state.mat].replace('925 ', ''));
+    if(state.style !== 'all') parts.push(styleLabel[state.style]);
+    if(state.cat !== 'all') parts.push(catLabel[state.cat]);
+    return parts.length ? parts.join(' · ') : "Women's Jewellery";
+  }
+
+  function render(){
+    const grid = document.getElementById('prodGrid');
+    const full = applyFilters();
+    const shown = full.slice(0, state.visible);
+    document.getElementById('resultCount').textContent = full.length + ' product' + (full.length === 1 ? '' : 's');
+    document.getElementById('loadMoreBtn').style.display = shown.length < full.length ? 'inline-block' : 'none';
+
+    // page head text reflects the full filter path
+    const title = currentTitle();
+    document.getElementById('pageTitle').textContent = title;
+    document.getElementById('crumbCurrent').textContent = title === "Women's Jewellery" ? 'Shop All' : title;
+
+    if(shown.length === 0){
+      grid.innerHTML = `<div class="empty-state"><h3>No pieces match that combination</h3><p>Try clearing a filter to see more.</p></div>`;
+      return;
+    }
+    grid.innerHTML = shown.map(p => `
+      <div class="prod-card" data-id="${p.id}">
+        <div style="position:relative;">
+          <a href="product.html?id=${p.id}">
+            <div class="prod-thumb">
+              ${p.style === 'statement' ? `<span class="tag-new statement-tag">Statement</span>` : (p.tag ? `<span class="tag-new">${p.tag}</span>` : '')}
+              ${icons[p.category]}
+            </div>
+          </a>
+          <button class="quick-add" data-add="${p.id}">Add to Bag</button>
+        </div>
+        <a href="product.html?id=${p.id}" style="display:block;">
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-meta">${matLabel[p.material]} · ${styleLabel[p.style]}</div>
+          <div class="prod-price">₹${p.price.toLocaleString('en-IN')}${p.mrp ? `<span class="strike">₹${p.mrp.toLocaleString('en-IN')}</span>` : ''}</div>
+        </a>
+      </div>
+    `).join('');
+  }
+
+  // ---------- Filter interactions ----------
+  document.getElementById('catChips').addEventListener('click', (e) => {
+    const btn = e.target.closest('.chip');
+    if(!btn) return;
+    document.querySelectorAll('#catChips .chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    state.cat = btn.getAttribute('data-cat');
+    state.visible = 8;
+    render();
+  });
+
+  document.getElementById('materialChips').addEventListener('click', (e) => {
+    const btn = e.target.closest('.chip');
+    if(!btn) return;
+    document.querySelectorAll('#materialChips .chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    state.mat = btn.getAttribute('data-mat');
+    state.visible = 8;
+    render();
+  });
+
+  document.getElementById('styleChips').addEventListener('click', (e) => {
+    const btn = e.target.closest('.chip');
+    if(!btn) return;
+    document.querySelectorAll('#styleChips .chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    state.style = btn.getAttribute('data-style');
+    state.visible = 8;
+    render();
+  });
+
+  document.getElementById('sortSelect').addEventListener('change', (e) => {
+    state.sort = e.target.value;
+    render();
+  });
+
+  document.getElementById('loadMoreBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    state.visible += 8;
+    render();
+  });
+
+  // sync active chips on load to match any URL params
+  document.querySelectorAll('#materialChips .chip').forEach(c => c.classList.toggle('active', c.getAttribute('data-mat') === state.mat));
+  document.querySelectorAll('#styleChips .chip').forEach(c => c.classList.toggle('active', c.getAttribute('data-style') === state.style));
+  document.querySelectorAll('#catChips .chip').forEach(c => c.classList.toggle('active', c.getAttribute('data-cat') === state.cat));
+
+  render();
+
+  // ---------- Cart (in-memory only, no localStorage) ----------
+  let cart = [];
+
+  function renderDrawer(){
+    const body = document.getElementById('drawerBody');
+    const totalEl = document.getElementById('drawerTotal');
+    document.getElementById('cartCount').textContent = cart.length;
+    if(cart.length === 0){
+      body.innerHTML = '<div class="drawer-empty">Your bag is empty.<br>Add something you\\'ll wear every day.</div>';
+      totalEl.textContent = '₹0';
+      return;
+    }
+    body.innerHTML = cart.map((item, idx) => `
+      <div class="drawer-item">
+        <div class="drawer-thumb">${icons[item.category]}</div>
+        <div>
+          <div class="drawer-item-name">${item.name}</div>
+          <div class="drawer-item-meta">${matLabel[item.material]}</div>
+          <div class="drawer-item-price">₹${item.price.toLocaleString('en-IN')}</div>
+          <a href="#" class="drawer-remove" data-remove="${idx}">Remove</a>
+        </div>
+      </div>
+    `).join('');
+    const total = cart.reduce((sum, i) => sum + i.price, 0);
+    totalEl.textContent = '₹' + total.toLocaleString('en-IN');
+  }
+
+  function showToast(msg){
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  document.addEventListener('click', (e) => {
+    const addId = e.target.getAttribute('data-add');
+    if(addId){
+      const p = catalog.find(x => x.id === Number(addId));
+      cart.push(p);
+      renderDrawer();
+      showToast(p.name + ' added to bag');
+    }
+    const removeIdx = e.target.getAttribute('data-remove');
+    if(removeIdx !== null){
+      e.preventDefault();
+      cart.splice(Number(removeIdx), 1);
+      renderDrawer();
+    }
+  });
+
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('overlay');
+  function openDrawer(){ drawer.classList.add('open'); overlay.classList.add('open'); }
+  function closeDrawerFn(){ drawer.classList.remove('open'); overlay.classList.remove('open'); }
+  document.getElementById('cartToggle').addEventListener('click', openDrawer);
+  document.getElementById('closeDrawer').addEventListener('click', closeDrawerFn);
+  overlay.addEventListener('click', closeDrawerFn);
+  renderDrawer();
+
+  // ---------- Razorpay checkout ----------
+  document.getElementById('checkoutBtn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (cart.length === 0) { showToast('Your bag is empty'); return; }
+
+    const total = cart.reduce((sum, i) => sum + (i.price * (i.qty || 1)), 0);
+    const btn = document.getElementById('checkoutBtn');
+    const originalLabel = btn.textContent;
+    btn.textContent = 'Starting checkout…';
+
+    try {
+      const orderRes = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: total })
+      });
+      const order = await orderRes.json();
+      if (order.error) { showToast('Could not start checkout — try again'); btn.textContent = originalLabel; return; }
+
+      const rzp = new Razorpay({
+        key: order.key_id,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.order_id,
+        name: 'Raha Jewellery',
+        description: cart.length + ' item(s)',
+        image: 'assets/favicon.png',
+        theme: { color: '#342E2E' },
+        handler: async function (response) {
+          const verifyRes = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(response)
+          });
+          const result = await verifyRes.json();
+          if (result.verified) {
+            cart = [];
+            renderDrawer();
+            closeDrawerFn();
+            showToast('Payment successful — order confirmed');
+          } else {
+            showToast('Payment could not be verified — contact support');
+          }
+        },
+        modal: {
+          ondismiss: function(){ btn.textContent = originalLabel; }
+        }
+      });
+      rzp.open();
+      btn.textContent = originalLabel;
+    } catch (err) {
+      showToast('Something went wrong — try again');
+      btn.textContent = originalLabel;
+    }
+  });
+
+  // ---------- Mobile menu ----------
+  document.getElementById('burgerToggle').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+</script>
+
+</body>
+</html>
